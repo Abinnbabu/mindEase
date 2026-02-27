@@ -4,6 +4,7 @@ import Login from './components/login';
 import MindEaseHome from './components/home';
 import SurveyPage from './components/survey';
 import MedicalSupport from './components/medical';
+import Dashboard from './components/profile';
 import './App.css';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/home" element={<MindEaseHome />} />
         <Route path="/survey" element={<SurveyPage />} />
         <Route path="/medical" element={<MedicalSupport />} />
+        <Route path="/profile" element={<Dashboard />} />
       </Routes>
     </Router>
   );

@@ -120,6 +120,7 @@ function BubbleCanvas({ primary }) {
 function Navbar({ T, themeKey, setThemeKey }) {
   const [open, setOpen] = useState(false);
   const dropRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const close = (e) => {
@@ -180,18 +181,21 @@ function Navbar({ T, themeKey, setThemeKey }) {
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
 
         {/* Username pill */}
-        <div style={{
-          ...navBtn,
-          pointerEvents: "none",
-          opacity: .85,
-        }}>
+        <button
+          style={{
+            ...navBtn,
+            opacity: .85,
+            pointerEvents: "auto",
+          }}
+          onClick={() => navigate("/profile")}
+        >
           <svg width="14" height="14" viewBox="0 0 20 20" fill="none"
             stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="10" cy="7" r="3.5" />
             <path d="M3 17c0-3.3 3.1-6 7-6s7 2.7 7 6" />
           </svg>
           Amar
-        </div>
+        </button>
 
         {/* Palette */}
         <div ref={dropRef} style={{ position: "relative" }}>
@@ -245,7 +249,7 @@ function Navbar({ T, themeKey, setThemeKey }) {
         </div>
 
         {/* Logout */}
-        <button className="nav-btn" style={navBtn}>
+        <button className="nav-btn" style={navBtn} onClick={() => navigate("/")}>
           <svg width="14" height="14" viewBox="0 0 20 20" fill="none"
             stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d="M13 15l4-4-4-4" />

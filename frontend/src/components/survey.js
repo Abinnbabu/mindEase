@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 /* ─── Theme Palettes ─────────────────────────────────────────────────────────── */
 const THEMES = {
@@ -140,6 +141,7 @@ function BubbleCanvas({ primary }) {
 function Navbar({ T, themeKey, setThemeKey }) {
   const [open, setOpen] = useState(false);
   const dropRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const close = (e) => {
@@ -220,7 +222,7 @@ function Navbar({ T, themeKey, setThemeKey }) {
       <div style={{ display:"flex", alignItems:"center", gap:10 }}>
 
         {/* Home button */}
-        <button className="nav-btn" style={navBtn}>
+        <button className="nav-btn" style={navBtn} onClick={() => navigate("/home")}>
           <IconHome />
           Home
         </button>
