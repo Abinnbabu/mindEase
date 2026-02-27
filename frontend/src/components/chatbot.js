@@ -80,6 +80,15 @@ const GLOBAL_CSS = `
   .nav-btn:hover     { background: rgba(255,255,255,0.22) !important; }
   .palette-row       { transition: background .15s ease; cursor: pointer; border-radius: 10px; }
   .palette-row:hover { background: rgba(128,128,128,.08) !important; }
+
+  @keyframes micPulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.15); }
+  }
+
+  .mic-btn-active {
+    animation: micPulse 1.5s ease-in-out infinite;
+  }
 `;
 
 /* ─── NAVBAR COMPONENT (matching home.js exactly) ────────────────── */
@@ -227,6 +236,7 @@ export default function MindEaseChat() {
   ]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
+  const [listening, setListening] = useState(false);
 
   const chatRef = useRef(null);
   const T = THEMES[themeKey];
@@ -269,6 +279,11 @@ export default function MindEaseChat() {
         { sender: "bot", text: generateReply(text) },
       ]);
     }, 1200);
+  };
+
+  const toggleSpeechToText = () => {
+    setListening(!listening);
+    // Placeholder for actual speech-to-text implementation
   };
 
   return (
@@ -419,6 +434,7 @@ export default function MindEaseChat() {
                 background: T.surface,
                 display: "flex",
                 gap: 10,
+                alignItems: "center",
               }}
             >
               <input
@@ -437,6 +453,36 @@ export default function MindEaseChat() {
               />
 
               <button
+                className={listening ? "mic-btn-active" : ""}
+                onClick={toggleSpeechToText}
+                title={listening ? "Recording... (Tap to stop)" : "Tap to speak"}
+                style={{
+                  background: listening ? T.primary : "rgba(0,0,0,0.08)",
+                  color: listening ? "#fff" : T.muted,
+                  border: `1.5px solid ${listening ? T.primary : T.subtle}`,
+                  borderRadius: 30,
+                  padding: "10px 16px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "0.75rem",
+                  fontWeight: 500,
+                  transition: "all .2s ease",
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 1a3 3 0 0 0-3 3v12a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                  <line x1="12" y1="19" x2="12" y2="23" />
+                  <line x1="8" y1="23" x2="16" y2="23" />
+                </svg>
+                <span>{listening ? "...Listening" : "Speak"}</span>
+              </button>
+
+              <button
                 onClick={sendMessage}
                 style={{
                   background: T.primary,
@@ -445,6 +491,9 @@ export default function MindEaseChat() {
                   borderRadius: 30,
                   padding: "12px 25px",
                   cursor: "pointer",
+                  fontWeight: 600,
+                  fontSize: "0.85rem",
+                  transition: "all .2s ease",
                 }}
               >
                 Send
