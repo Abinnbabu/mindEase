@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const themes = {
   blue: {
@@ -61,6 +62,7 @@ export default function MindEaseHome() {
   const [selectedMood, setSelectedMood] = useState(null);
   const [hoveredFeature, setHoveredFeature] = useState(null);
   const theme = themes[themeName];
+  const navigate = useNavigate();
 
   // Generate random blob data
   const generateBlobs = () => {
@@ -304,6 +306,7 @@ export default function MindEaseHome() {
               className="feat-card"
               onMouseEnter={() => setHoveredFeature(i)}
               onMouseLeave={() => setHoveredFeature(null)}
+              onClick={() => feat.label === "Survey" && navigate("/survey")}
               style={{
                 background: theme.cardBg,
                 border: `2px solid ${hoveredFeature === i ? theme.primary : "transparent"}`,
@@ -312,7 +315,7 @@ export default function MindEaseHome() {
                 cursor: "pointer",
                 textAlign: "left",
                 transition: "all 0.3s ease",
-                boxShadow: hoveredFeature === i ? `0 12px 32px rgba(0,0,0,0.12)` : "0 4px 16px rgba(0,0,0,0.06)",
+                boxShadow: hoveredFeature === i ? `0 12px 32px rgba(0,0,0,0.12)` : "4px 16px rgba(0,0,0,0.06)",
                 display: "flex",
                 flexDirection: "column",
                 gap: 16,

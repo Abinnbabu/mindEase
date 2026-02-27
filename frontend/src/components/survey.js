@@ -673,7 +673,7 @@ export default function SurveyPage() {
                     height:       150,
                     borderRadius: "50%",
                     background:   `radial-gradient(circle at 36% 34%, ${T.primary}CC, ${T.accent})`,
-                    margin:       "0 auto 22px",
+                    margin:       "0 auto 50px",
                     transform:    `scale(${breathScale})`,
                     transition:   "transform 4s ease-in-out, background .5s",
                     animation:    "pulseGlow 4s ease-in-out infinite",
@@ -683,6 +683,7 @@ export default function SurveyPage() {
                     fontSize:     "1.5rem",
                     fontStyle:    "italic",
                     color:        T.primary,
+                    marginTop:    16,
                     marginBottom: 6,
                     transition:   "color .4s",
                   }}>
