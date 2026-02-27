@@ -5,6 +5,7 @@ import MindEaseHome from './components/home';
 import SurveyPage from './components/survey';
 import MedicalSupport from './components/medical';
 import Dashboard from './components/profile';
+import MindEaseChat from './components/chatbot';
 import './App.css';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/survey" element={<SurveyPage />} />
         <Route path="/medical" element={<MedicalSupport />} />
         <Route path="/profile" element={<Dashboard />} />
+        <Route path="/chatbot" element={<MindEaseChat />} />
       </Routes>
     </Router>
   );
