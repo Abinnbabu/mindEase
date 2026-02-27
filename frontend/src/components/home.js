@@ -62,82 +62,162 @@ export default function MindEaseHome() {
   const [hoveredFeature, setHoveredFeature] = useState(null);
   const theme = themes[themeName];
 
+  // Generate random blob data
+  const generateBlobs = () => {
+    return Array.from({ length: 8 }, (_, i) => ({
+      id: i,
+      size: Math.random() * 120 + 60, // Random size between 60-180px
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      duration: Math.random() * 8 + 12, // Random duration between 12-20s
+      animationIndex: i % 8,
+    }));
+  };
+
+  const blobs = generateBlobs();
+
   return (
-    <div style={{ background: theme.bgGradient, minHeight: "100vh", fontFamily: "'Segoe UI', sans-serif", transition: "all 0.4s ease", position: "relative", overflow: "hidden" }}>
+    <div style={{ background: theme.bgGradient, minHeight: "100vh", fontFamily: "'Montserrat', sans-serif", transition: "all 0.4s ease", position: "relative", overflow: "hidden", lineHeight: "1.6" }}>
 
       <style>{`
-        @keyframes float {
-          0%   { transform: translateY(0px); }
-          50%  { transform: translateY(-20px); }
-          100% { transform: translateY(0px); }
+        @keyframes randomFloat0 {
+          0%   { transform: translate(0px, 0px); }
+          25%  { transform: translate(-30px, -40px); }
+          50%  { transform: translate(20px, -10px); }
+          75%  { transform: translate(-20px, 30px); }
+          100% { transform: translate(0px, 0px); }
+        }
+        @keyframes randomFloat1 {
+          0%   { transform: translate(0px, 0px); }
+          25%  { transform: translate(40px, -20px); }
+          50%  { transform: translate(-10px, 35px); }
+          75%  { transform: translate(-35px, -15px); }
+          100% { transform: translate(0px, 0px); }
+        }
+        @keyframes randomFloat2 {
+          0%   { transform: translate(0px, 0px); }
+          25%  { transform: translate(-25px, 35px); }
+          50%  { transform: translate(35px, 10px); }
+          75%  { transform: translate(15px, -30px); }
+          100% { transform: translate(0px, 0px); }
+        }
+        @keyframes randomFloat3 {
+          0%   { transform: translate(0px, 0px); }
+          25%  { transform: translate(50px, 30px); }
+          50%  { transform: translate(-20px, -25px); }
+          75%  { transform: translate(25px, 20px); }
+          100% { transform: translate(0px, 0px); }
+        }
+        @keyframes randomFloat4 {
+          0%   { transform: translate(0px, 0px); }
+          25%  { transform: translate(-45px, 25px); }
+          50%  { transform: translate(30px, -30px); }
+          75%  { transform: translate(-15px, 35px); }
+          100% { transform: translate(0px, 0px); }
+        }
+        @keyframes randomFloat5 {
+          0%   { transform: translate(0px, 0px); }
+          25%  { transform: translate(35px, -35px); }
+          50%  { transform: translate(-30px, 20px); }
+          75%  { transform: translate(25px, -25px); }
+          100% { transform: translate(0px, 0px); }
+        }
+        @keyframes randomFloat6 {
+          0%   { transform: translate(0px, 0px); }
+          25%  { transform: translate(-40px, -20px); }
+          50%  { transform: translate(25px, 40px); }
+          75%  { transform: translate(-20px, -35px); }
+          100% { transform: translate(0px, 0px); }
+        }
+        @keyframes randomFloat7 {
+          0%   { transform: translate(0px, 0px); }
+          25%  { transform: translate(30px, 40px); }
+          50%  { transform: translate(-35px, -20px); }
+          75%  { transform: translate(40px, 25px); }
+          100% { transform: translate(0px, 0px); }
         }
         @keyframes fadeSlideUp {
           from { opacity: 0; transform: translateY(24px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-        .blob1 { left: 8%;  top: 55%; animation: float 30s infinite ease-in-out; }
-        .blob2 { left: 72%; top: 15%; animation: float 35s infinite ease-in-out; }
-        .blob3 { left: 42%; top: 75%; animation: float 40s infinite ease-in-out; }
-        .blob4 { left: 88%; top: 60%; animation: float 28s infinite ease-in-out; }
-        .mood-btn:hover  { transform: scale(1.08) !important; box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important; }
-        .feat-card:hover { transform: translateY(-6px) scale(1.02) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.12) !important; }
-        .nav-btn:hover   { opacity: 0.85; transform: scale(1.04); }
-        .logout-btn:hover { background: rgba(255,255,255,0.25) !important; }
+        .mood-btn:hover  { transform: scale(1.06) !important; box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important; }
+        .feat-card:hover { transform: translateY(-4px) scale(1.01) !important; box-shadow: 0 12px 32px rgba(0,0,0,0.12) !important; }
+        .nav-btn:hover   { opacity: 0.9; transform: scale(1.03); }
+        .logout-btn:hover { background: rgba(255,255,255,0.18) !important; }
       `}</style>
 
       {/* Background Bubbles */}
       <div style={{ position: "absolute", width: "100%", height: "100%", top: 0, left: 0, pointerEvents: "none", zIndex: 0 }}>
-        {["blob1", "blob2", "blob3", "blob4"].map((cls) => (
-          <span key={cls} className={cls} style={{
-            position: "absolute",
-            width: 160, height: 160,
-            background: theme.bubble,
-            opacity: 0.06,
-            borderRadius: "50%",
-          }} />
+        {blobs.map((blob) => (
+          <span
+            key={blob.id}
+            style={{
+              position: "absolute",
+              width: blob.size,
+              height: blob.size,
+              background: theme.bubble,
+              opacity: 0.06,
+              borderRadius: "50%",
+              left: `${blob.left}%`,
+              top: `${blob.top}%`,
+              animation: `randomFloat${blob.animationIndex} ${blob.duration}s infinite ease-in-out`,
+            }}
+          />
         ))}
       </div>
 
       {/* Navbar */}
       <nav style={{
         background: theme.navBg,
-        padding: "14px 32px",
+        padding: "16px 40px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        boxShadow: "0 4px 16px rgba(0,0,0,0.1)",
+        boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
         position: "relative",
         zIndex: 2,
       }}>
+        {/* Brand Title */}
         <div style={{
-          background: "rgba(255,255,255,0.15)",
-          backdropFilter: "blur(8px)",
-          border: "2px solid rgba(255,255,255,0.4)",
-          borderRadius: 12,
-          padding: "8px 20px",
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          fontSize: "1.8rem",
+          fontWeight: 400,
           color: theme.navText,
-          fontWeight: 600,
-          fontSize: "1rem",
+          letterSpacing: "-0.5px",
+          fontFamily: "'Montserrat', sans-serif",
         }}>
-          👤 &nbsp;John Doe
+          <span style={{ fontSize: "2rem" }}>🧠</span>
+          <span style={{
+            background: "linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7))",
+            backgroundClip: "text",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            fontWeight: 500,
+            letterSpacing: "-0.8px",
+          }}>
+            MindEase
+          </span>
         </div>
 
-        <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
+        <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
           {/* Theme Switcher */}
           <select
             value={themeName}
             onChange={(e) => setThemeName(e.target.value)}
             style={{
-              borderRadius: 12,
-              padding: "8px 14px",
-              border: "2px solid rgba(255,255,255,0.4)",
-              background: "rgba(255,255,255,0.15)",
-              backdropFilter: "blur(8px)",
+              borderRadius: 10,
+              padding: "10px 16px",
+              border: "1px solid rgba(255,255,255,0.2)",
+              background: "rgba(255,255,255,0.12)",
+              backdropFilter: "blur(10px)",
               color: theme.navText,
-              fontWeight: 500,
+              fontWeight: 400,
               cursor: "pointer",
               fontSize: "0.9rem",
               outline: "none",
+              fontFamily: "'Montserrat', sans-serif",
             }}
           >
             <option value="blue" style={{ color: "#000" }}>🎨 Soft Blue</option>
@@ -149,16 +229,17 @@ export default function MindEaseHome() {
           <button
             className="logout-btn"
             style={{
-              background: "rgba(255,255,255,0.15)",
-              backdropFilter: "blur(8px)",
-              border: "2px solid rgba(255,255,255,0.4)",
-              borderRadius: 12,
-              padding: "8px 22px",
+              background: "rgba(255,255,255,0.12)",
+              backdropFilter: "blur(10px)",
+              border: "1px solid rgba(255,255,255,0.2)",
+              borderRadius: 10,
+              padding: "10px 24px",
               color: theme.navText,
-              fontWeight: 600,
+              fontWeight: 400,
               cursor: "pointer",
               fontSize: "0.95rem",
               transition: "all 0.2s ease",
+              letterSpacing: "0.3px",
             }}
           >
             Logout
@@ -167,10 +248,10 @@ export default function MindEaseHome() {
       </nav>
 
       {/* Main Content */}
-      <main style={{ position: "relative", zIndex: 1, padding: "40px 40px 60px", maxWidth: 1100, margin: "0 auto" }}>
+      <main style={{ position: "relative", zIndex: 1, padding: "48px 48px 72px", maxWidth: 1200, margin: "0 auto" }}>
 
         {/* Mood Buttons */}
-        <div style={{ display: "flex", justifyContent: "center", gap: 16, marginBottom: 36, flexWrap: "wrap", animation: "fadeSlideUp 0.5s ease both" }}>
+        <div style={{ display: "flex", justifyContent: "center", gap: 20, marginBottom: 44, flexWrap: "wrap", animation: "fadeSlideUp 0.5s ease both" }}>
           {moods.map((mood) => (
             <button
               key={mood.label}
@@ -181,12 +262,13 @@ export default function MindEaseHome() {
                 color: selectedMood === mood.label ? "#fff" : theme.primary,
                 border: `2px solid ${theme.primary}`,
                 borderRadius: 50,
-                padding: "10px 28px",
-                fontWeight: 600,
+                padding: "12px 32px",
+                fontWeight: 400,
                 fontSize: "1rem",
                 cursor: "pointer",
                 transition: "all 0.25s ease",
-                boxShadow: selectedMood === mood.label ? `0 6px 20px rgba(0,0,0,0.15)` : "none",
+                boxShadow: selectedMood === mood.label ? `0 8px 24px rgba(0,0,0,0.12)` : "0 2px 8px rgba(0,0,0,0.04)",
+                letterSpacing: "0.3px",
               }}
             >
               {mood.emoji} {mood.label}
@@ -197,21 +279,23 @@ export default function MindEaseHome() {
         {/* Heading */}
         <h1 style={{
           color: theme.primary,
-          fontSize: "clamp(2rem, 5vw, 3.2rem)",
-          fontWeight: 700,
+          fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
+          fontWeight: 400,
           textAlign: "center",
-          marginBottom: 48,
+          marginBottom: 52,
           animation: "fadeSlideUp 0.6s ease 0.1s both",
           letterSpacing: "-0.5px",
+          lineHeight: "1.2",
+          fontFamily: "'Montserrat', sans-serif",
         }}>
-          How are you feeling today? ✨
+          Amar, how are you feeling today? ✨
         </h1>
 
         {/* Feature Cards */}
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: 28,
+          gap: 32,
           animation: "fadeSlideUp 0.7s ease 0.2s both",
         }}>
           {features.map((feat, i) => (
@@ -223,30 +307,32 @@ export default function MindEaseHome() {
               style={{
                 background: theme.cardBg,
                 border: `2px solid ${hoveredFeature === i ? theme.primary : "transparent"}`,
-                borderRadius: 24,
-                padding: "48px 32px",
+                borderRadius: 20,
+                padding: "52px 36px",
                 cursor: "pointer",
                 textAlign: "left",
                 transition: "all 0.3s ease",
-                boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
+                boxShadow: hoveredFeature === i ? `0 12px 32px rgba(0,0,0,0.12)` : "0 4px 16px rgba(0,0,0,0.06)",
                 display: "flex",
                 flexDirection: "column",
-                gap: 12,
+                gap: 16,
               }}
             >
-              <span style={{ fontSize: "2.8rem" }}>{feat.emoji}</span>
+              <span style={{ fontSize: "3.2rem" }}>{feat.emoji}</span>
               <span style={{
                 color: theme.primary,
-                fontSize: "1.5rem",
-                fontWeight: 700,
+                fontSize: "1.6rem",
+                fontWeight: 400,
+                letterSpacing: "-0.3px",
               }}>
                 {feat.label}
               </span>
               <span style={{
                 color: theme.primary,
-                opacity: 0.7,
-                fontSize: "0.95rem",
+                opacity: 0.68,
+                fontSize: "0.98rem",
                 fontWeight: 400,
+                lineHeight: "1.6",
               }}>
                 {feat.desc}
               </span>
@@ -258,11 +344,13 @@ export default function MindEaseHome() {
         {selectedMood && (
           <p style={{
             textAlign: "center",
-            marginTop: 36,
+            marginTop: 48,
             color: theme.primary,
-            fontSize: "1.05rem",
-            fontWeight: 500,
+            fontSize: "1.1rem",
+            fontWeight: 400,
             animation: "fadeSlideUp 0.4s ease both",
+            letterSpacing: "0.2px",
+            lineHeight: "1.6",
           }}>
             You're feeling <strong>{selectedMood}</strong> today. We're here for you 💙
           </p>

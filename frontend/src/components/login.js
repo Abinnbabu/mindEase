@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const themes = {
   blue: {
@@ -38,9 +39,35 @@ const themes = {
 export default function MindEase() {
   const [isLogin, setIsLogin] = useState(true);
   const [themeName, setThemeName] = useState("blue");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
   const theme = themes[themeName];
+  const navigate = useNavigate();
 
   const toggleForm = () => setIsLogin((prev) => !prev);
+
+  const handleLogin = () => {
+    if (isLogin) {
+      // Login mode
+      if (email === "amar@gmail.com" && password === "amar") {
+        navigate("/home");
+      } else {
+        alert("Invalid credentials");
+      }
+    } else {
+      // Register mode
+      if (email && password && fullName) {
+        alert("Registration successful! Please log in.");
+        setIsLogin(true);
+        setEmail("");
+        setPassword("");
+        setFullName("");
+      } else {
+        alert("Please fill in all fields");
+      }
+    }
+  };
 
   // Generate random blob data
   const generateBlobs = () => {
@@ -63,7 +90,7 @@ export default function MindEase() {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      fontFamily: "'Segoe UI', sans-serif",
+      fontFamily: "'Montserrat', sans-serif",
       transition: "all 0.4s ease",
       overflow: "hidden",
       position: "relative",
@@ -91,7 +118,7 @@ export default function MindEase() {
       background: "rgba(255,255,255,0.7)",
       backdropFilter: "blur(8px)",
       boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-      fontWeight: 500,
+      fontWeight: 400,
       cursor: "pointer",
       fontSize: "0.9rem",
     },
@@ -108,7 +135,7 @@ export default function MindEase() {
     },
     title: {
       color: theme.primary,
-      fontWeight: 600,
+      fontWeight: 400,
       textAlign: "center",
       marginBottom: 24,
       fontSize: "1.5rem",
@@ -253,6 +280,8 @@ export default function MindEase() {
             <input
               type="text"
               placeholder="Full Name"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
               style={styles.input}
             />
           )}
@@ -261,6 +290,8 @@ export default function MindEase() {
             type="email"
             placeholder="Email"
             required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             style={styles.input}
           />
 
@@ -268,6 +299,8 @@ export default function MindEase() {
             type="password"
             placeholder="Password"
             required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             style={styles.input}
           />
 
@@ -275,7 +308,7 @@ export default function MindEase() {
             type="button"
             className="btn-soft"
             style={styles.button}
-            onClick={() => {}}
+            onClick={handleLogin}
           >
             {isLogin ? "Login" : "Register"}
           </button>
