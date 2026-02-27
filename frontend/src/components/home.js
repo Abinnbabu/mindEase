@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { ThemeContext } from "../App";
 
 /* ─── Theme Palettes (identical to survey.js) ────────────────────────────────── */
 const THEMES = {
@@ -312,7 +313,7 @@ const FEATURES = [
 
 /* ─── Home Page ──────────────────────────────────────────────────────────────── */
 export default function MindEaseHome() {
-  const [themeKey,      setThemeKey]      = useState("blue");
+  const { themeKey, setThemeKey } = useContext(ThemeContext);
   const [selectedMood,  setSelectedMood]  = useState(null);
   const [hoveredFeature,setHoveredFeature]= useState(null);
   const navigate = useNavigate();

@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { ThemeContext } from "../App";
 
 /* ─── Theme Palettes ─────────────────────────────────────────────────────────── */
 const THEMES = {
@@ -338,7 +339,7 @@ function Stars({ rating, primary }) {
 
 /* ─── MedicalSupport Page ────────────────────────────────────────────────────── */
 export default function MedicalSupport() {
-  const [themeKey,    setThemeKey]    = useState("blue");
+  const { themeKey, setThemeKey } = useContext(ThemeContext);
   const [search,      setSearch]      = useState("");
   const [filter,      setFilter]      = useState("All");
   const [mapDoctor,   setMapDoctor]   = useState(null);

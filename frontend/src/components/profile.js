@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { ThemeContext } from "../App";
 
 /* ─── Theme Palettes ─────────────────────────────────────────────────────────── */
 const THEMES = {
@@ -399,7 +400,7 @@ function IntensityBar({ value, max = 10, T }) {
 
 /* ─── Dashboard Page ─────────────────────────────────────────────────────────── */
 export default function Dashboard() {
-  const [themeKey, setThemeKey] = useState("blue");
+  const { themeKey, setThemeKey } = useContext(ThemeContext);
   const T = THEMES[themeKey];
 
   const score          = calcScore(USER_DATA);

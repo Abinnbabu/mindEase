@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { ThemeContext } from "../App";
 
 /* ─── THEMES (matching home.js) ───────────────────────────────── */
 const THEMES = {
@@ -230,7 +231,7 @@ function Navbar({ T, themeKey, setThemeKey }) {
 
 /* ─── COMPONENT ───────────────────────────────────────────────── */
 export default function MindEaseChat() {
-  const [themeKey, setThemeKey] = useState("blue");
+  const { themeKey, setThemeKey } = useContext(ThemeContext);
   const [messages, setMessages] = useState([
     { sender: "bot", text: "Hello 👋 I'm here to support you. How are you feeling today?" },
   ]);

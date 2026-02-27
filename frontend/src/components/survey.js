@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { ThemeContext } from "../App";
 
 /* ─── Theme Palettes ─────────────────────────────────────────────────────────── */
 const THEMES = {
@@ -324,7 +325,7 @@ function Divider({ T }) {
 
 /* ─── Main SurveyPage ────────────────────────────────────────────────────────── */
 export default function SurveyPage() {
-  const [themeKey,    setThemeKey]    = useState("blue");
+  const { themeKey, setThemeKey } = useContext(ThemeContext);
   const [surveyDone,  setSurveyDone]  = useState(false);
   const [breathPhase, setBreathPhase] = useState(null);
   const [breathScale, setBreathScale] = useState(1);

@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { ThemeContext } from "../App";
 
 /* ─── Theme Palettes (identical to survey.js & home.js) ─────────────────────── */
 const THEMES = {
@@ -224,8 +225,8 @@ function PaletteDropdown({ T, themeKey, setThemeKey }) {
 
 /* ─── Login Page ─────────────────────────────────────────────────────────────── */
 export default function MindEase() {
+  const { themeKey, setThemeKey } = useContext(ThemeContext);
   const [isLogin,   setIsLogin]   = useState(true);
-  const [themeKey,  setThemeKey]  = useState("blue");
   const [email,     setEmail]     = useState("");
   const [password,  setPassword]  = useState("");
   const [fullName,  setFullName]  = useState("");
